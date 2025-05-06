@@ -6,12 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-//    searchPhotoUseCase: SearchPhotoUseCase
-) : BaseViewModel<MainEvent>() {
-//    private val photosFlow: Flow<PagingData<PhotoInfo>> =
-//        searchPhotoUseCase("nature", 10).cachedIn(viewModelScope)
-//    val photos = photosFlow.asLiveData()
+class MainViewModel @Inject constructor() : BaseViewModel<MainEvent>() {
+
 }
 
 sealed class MainEvent : BaseEvent() {

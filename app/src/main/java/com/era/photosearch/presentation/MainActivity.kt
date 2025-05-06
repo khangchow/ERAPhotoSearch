@@ -28,16 +28,6 @@ class MainActivity : BaseActivity<MainEvent, ActivityMainBinding, MainViewModel>
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navController = navHostFragment.findNavController()
             setupActionBarWithNavController(navController)
-//            rv.apply {
-//                adapter = PhotoAdapter()
-//                layoutManager =
-//                    GridLayoutManager(this@MainActivity, 2, GridLayoutManager.VERTICAL, false)
-//                setHasFixedSize(true)
-//                setItemViewCacheSize(20)
-//            }
-//            viewModel.photos.observe(this@MainActivity) {
-//                lifecycleScope.launch { (rv.adapter as PhotoAdapter).submitData(it) }
-//            }
         }
     }
 
