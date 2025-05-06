@@ -6,13 +6,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.launch
 
 abstract class BaseActivity<E : BaseEvent, VB : ViewBinding, VM : BaseViewModel<E>> :
     AppCompatActivity() {
     protected lateinit var binding: VB
     abstract val bindingInflater: ((LayoutInflater) -> VB)
     abstract val viewModel: VM
+    abstract suspend fun eventObserver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -24,12 +27,9 @@ abstract class BaseActivity<E : BaseEvent, VB : ViewBinding, VM : BaseViewModel<
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        setUpNavigation()
         bindComponent()
-        bindEvent()
+        lifecycleScope.launch { eventObserver() }
     }
 
     abstract fun bindComponent()
-    abstract fun bindEvent()
-    protected open fun setUpNavigation() {}
 }

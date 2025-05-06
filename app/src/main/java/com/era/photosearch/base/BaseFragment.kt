@@ -42,15 +42,15 @@ abstract class BaseFragment<E : BaseEvent, VB : ViewBinding, VM : BaseFragmentVi
         super.onViewCreated(view, savedInstanceState)
         bindComponent()
         bindEvent()
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                this.launch {
-                    viewModel.exception.collect { exception ->
-                        mainViewModel.handleException(exception)
-                    }
-                }
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                this.launch {
+//                    viewModel.exception.collect { exception ->
+//                        mainViewModel.handleException(exception)
+//                    }
+//                }
+//            }
+//        }
     }
 
     override fun onDestroy() {

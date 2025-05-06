@@ -1,21 +1,33 @@
 package com.era.photosearch.presentation
 
-import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.era.photosearch.R
+import android.view.LayoutInflater
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.era.photosearch.base.BaseActivity
+import com.era.photosearch.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+@AndroidEntryPoint
+class MainActivity : BaseActivity<MainEvent, ActivityMainBinding, MainViewModel>() {
+    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding =
+        ActivityMainBinding::inflate
+    override val viewModel: MainViewModel by viewModels()
+
+    override suspend fun eventObserver() {
+
+    }
+
+    override fun bindComponent() {
+        binding.apply {
+            rv.apply {
+                adapter = PhotoAdapter()
+                layoutManager = LinearLayoutManager(this@MainActivity)
+            }
+            viewModel.photos.observe(this@MainActivity) {
+                lifecycleScope.launch { (rv.adapter as PhotoAdapter).submitData(it) }
+            }
         }
     }
 }
