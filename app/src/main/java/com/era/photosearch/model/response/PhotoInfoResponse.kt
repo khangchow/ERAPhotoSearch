@@ -30,7 +30,7 @@ data class PhotoInfo(
     val photographerUrl: String,
     val src: Src,
     val url: String,
-    val width: Int?
+    val width: Int
 )
 
 data class SrcResponse(

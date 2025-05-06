@@ -3,7 +3,7 @@ package com.era.photosearch.presentation
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.era.photosearch.base.BaseActivity
 import com.era.photosearch.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +23,10 @@ class MainActivity : BaseActivity<MainEvent, ActivityMainBinding, MainViewModel>
         binding.apply {
             rv.apply {
                 adapter = PhotoAdapter()
-                layoutManager = LinearLayoutManager(this@MainActivity)
+                layoutManager =
+                    GridLayoutManager(this@MainActivity, 2, GridLayoutManager.VERTICAL, false)
+                setHasFixedSize(true)
+                setItemViewCacheSize(20)
             }
             viewModel.photos.observe(this@MainActivity) {
                 lifecycleScope.launch { (rv.adapter as PhotoAdapter).submitData(it) }

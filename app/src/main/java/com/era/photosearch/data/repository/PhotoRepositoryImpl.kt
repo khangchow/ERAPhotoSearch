@@ -15,7 +15,11 @@ class PhotoRepositoryImpl(private val apiService: ApiService) : PhotoRepository 
         perPage: Int
     ): Flow<PagingData<PhotoInfo>> {
         return Pager(
-            config = PagingConfig(pageSize = perPage, initialLoadSize = 10),
+            config = PagingConfig(
+                pageSize = perPage,
+                initialLoadSize = perPage,
+                enablePlaceholders = false
+            ),
             pagingSourceFactory = { PhotoPagingSource(apiService, query) }
         ).flow
     }
