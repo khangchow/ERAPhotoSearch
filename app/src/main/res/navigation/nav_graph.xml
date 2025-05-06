@@ -18,5 +18,9 @@
         android:id="@+id/searchFragment"
         android:name="com.era.photosearch.presentation.search.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <argument
+            android:name="searchQuery"
+            app:argType="string" />
+    </fragment>
 </navigation>

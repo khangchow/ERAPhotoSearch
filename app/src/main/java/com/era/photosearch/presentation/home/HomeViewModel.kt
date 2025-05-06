@@ -8,9 +8,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    state: SavedStateHandle
+    private val state: SavedStateHandle
 ) : BaseViewModel<HomeEvent>() {
+    var searchQuery = state["searchQuery"] ?: ""
+        set(value) {
+            field = value
+            state["searchQuery"] = value
+        }
 
+    fun onSearchQueryChanged(query: String) {
+        searchQuery = query
+    }
 }
 
 sealed class HomeEvent : BaseEvent() {

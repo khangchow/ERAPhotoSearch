@@ -6,8 +6,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
@@ -23,6 +25,11 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
     override val viewModel: SearchViewModel by viewModels()
     private lateinit var searchView: SearchView
 
+    companion object {
+        const val SEARCH_REQUEST_KEY = "SEARCH_REQUEST_KEY"
+        const val SEARCH_QUERY_BUNDLE_KEY = "SEARCH_QUERY_BUNDLE_KEY"
+    }
+
     override suspend fun eventObserver() {
 
     }
@@ -36,12 +43,19 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
                 searchView = searchItem.actionView as SearchView
                 searchView.apply {
                     searchItem.expandActionView()
-//                        setQuery(pendingQuery, false)
+                    setQuery(viewModel.searchQuery.value, false)
                     setOnQueryTextFocusChangeListener { _, hasFocus ->
                         if (!hasFocus) findNavController().navigateUp()
                     }
                     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                        override fun onQueryTextSubmit(query: String?) = true
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            setFragmentResult(
+                                SEARCH_REQUEST_KEY,
+                                bundleOf(SEARCH_QUERY_BUNDLE_KEY to query.orEmpty())
+                            )
+                            searchItem.collapseActionView()
+                            return false
+                        }
 
                         override fun onQueryTextChange(newText: String?): Boolean {
                             viewModel.onQueryTextChanged(newText.orEmpty())

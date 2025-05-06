@@ -7,12 +7,14 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import com.era.photosearch.R
 import com.era.photosearch.base.BaseFragment
 import com.era.photosearch.databinding.FragmentHomeBinding
 import com.era.photosearch.extension.navigate
+import com.era.photosearch.presentation.search.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +29,7 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
 
     override fun bindComponent() {
         setUpActionBar()
+        binding.tvResult.text = getString(R.string.search_result, viewModel.searchQuery)
     }
 
     private fun setUpActionBar() {
@@ -40,7 +43,9 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
                 when (menuItem.itemId) {
                     R.id.action_search -> {
                         navigate(
-                            directions = HomeFragmentDirections.actionHomeFragmentToSearchFragment(),
+                            directions = HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                                viewModel.searchQuery
+                            ),
                             rootFragment = this@HomeFragment
                         )
                     }
@@ -52,6 +57,14 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
     }
 
     override fun setResultListener() {
+        setSearchResultListener()
+    }
 
+    private fun setSearchResultListener() {
+        setFragmentResultListener(SearchFragment.SEARCH_REQUEST_KEY) { _, bundle ->
+            val query = bundle.getString(SearchFragment.SEARCH_QUERY_BUNDLE_KEY).orEmpty()
+            binding.tvResult.text = getString(R.string.search_result, query)
+            viewModel.onSearchQueryChanged(query)
+        }
     }
 }
