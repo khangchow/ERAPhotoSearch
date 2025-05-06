@@ -2,7 +2,7 @@ package com.era.photosearch.presentation
 
 import android.app.Application
 import com.era.photosearch.BuildConfig
-import com.era.photosearch.utils.DebuggingActivityLifecycleCallback
+import com.era.photosearch.util.DebuggingActivityLifecycleCallback
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

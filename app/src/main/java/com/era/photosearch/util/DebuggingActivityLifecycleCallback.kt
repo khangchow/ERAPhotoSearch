@@ -1,4 +1,4 @@
-package com.era.photosearch.utils
+package com.era.photosearch.util
 
 import android.app.Activity
 import android.app.Application
@@ -9,7 +9,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.era.photosearch.utils.DebuggingActivityLifecycleCallback.Companion.DEBUG_FRAGMENT
+import com.era.photosearch.util.DebuggingActivityLifecycleCallback.Companion.DEBUG_FRAGMENT
 
 class DebuggingActivityLifecycleCallback : Application.ActivityLifecycleCallbacks {
     companion object {

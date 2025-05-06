@@ -9,7 +9,7 @@ import com.era.photosearch.data.remote.ApiService
 import com.era.photosearch.data.remote.AuthInterceptor
 import com.era.photosearch.data.repository.PhotoRepositoryImpl
 import com.era.photosearch.domain.repository.PhotoRepository
-import com.era.photosearch.utils.Constants
+import com.era.photosearch.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

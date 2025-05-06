@@ -1,4 +1,4 @@
-package com.era.photosearch.presentation
+package com.era.photosearch.presentation.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.era.photosearch.databinding.ItemPhotoBinding
 import com.era.photosearch.model.response.PhotoInfo
-import com.era.photosearch.presentation.PhotoAdapter.PhotoViewHolder
+import com.era.photosearch.presentation.home.PhotoAdapter.PhotoViewHolder
 
 class PhotoAdapter : PagingDataAdapter<PhotoInfo, PhotoViewHolder>(PHOTO_COMPARATOR) {
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
