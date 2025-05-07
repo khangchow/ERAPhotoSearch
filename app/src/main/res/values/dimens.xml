@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common Margins -->
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+
+    <!-- Common Padding -->
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="text_xsmall">10sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_medium">14sp</dimen>
+    <dimen name="text_large">16sp</dimen>
+    <dimen name="text_xlarge">20sp</dimen>
+    <dimen name="text_title">24sp</dimen>
+
+    <!-- Component Sizes -->
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="icon_size_small">24dp</dimen>
+    <dimen name="icon_size_medium">32dp</dimen>
+    <dimen name="icon_size_large">48dp</dimen>
+
+    <!-- Elevation -->
+    <dimen name="elevation_card">4dp</dimen>
+    <dimen name="elevation_dialog">8dp</dimen>
+
+    <!-- Elevation -->
+    <dimen name="stroke_thin">1dp</dimen>
+    <dimen name="stroke_medium">2dp</dimen>
+    <dimen name="stroke_thick">4dp</dimen>
+
+    <!-- Radius -->
+    <dimen name="radius_none">0dp</dimen>
+    <dimen name="radius_small">4dp</dimen>
+    <dimen name="radius_medium">8dp</dimen>
+    <dimen name="radius_large">16dp</dimen>
+    <dimen name="radius_full">999dp</dimen> <!-- For full circular views -->
+</resources>

@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/padding_medium">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvResult"
         style="?attr/textAppearanceBodyLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/margin_small"
         android:background="@drawable/bg_primary_stroke_radius_8"
-        android:padding="8dp"
+        android:padding="@dimen/padding_small"
         android:textColor="?attr/colorOnSurface"
         android:textStyle="italic"
         tools:text="Results for: Cat" />
