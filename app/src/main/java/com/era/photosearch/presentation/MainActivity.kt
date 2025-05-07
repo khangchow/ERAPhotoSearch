@@ -27,6 +27,7 @@ class MainActivity : BaseActivity<MainEvent, ActivityMainBinding, MainViewModel>
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navController = navHostFragment.findNavController()
+            setSupportActionBar(binding.toolbar)
             setupActionBarWithNavController(navController)
         }
     }
