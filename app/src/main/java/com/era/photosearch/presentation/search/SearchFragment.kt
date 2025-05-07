@@ -12,11 +12,14 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.era.photosearch.R
 import com.era.photosearch.base.BaseFragment
 import com.era.photosearch.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchViewModel>() {
@@ -49,6 +52,7 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
                     }
                     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                         override fun onQueryTextSubmit(query: String?): Boolean {
+                            mainViewModel.saveSearchQuery(query.orEmpty())
                             setFragmentResult(
                                 SEARCH_REQUEST_KEY,
                                 bundleOf(SEARCH_QUERY_BUNDLE_KEY to query.orEmpty())
@@ -73,8 +77,20 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
         menuHost.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
+    private fun setUpRecyclerView() {
+        binding.rvHistory.apply {
+            adapter = SearchQueryAdapter()
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            viewModel.histories.observe(viewLifecycleOwner) {
+                lifecycleScope.launch { (adapter as SearchQueryAdapter).submitData(it) }
+            }
+        }
+    }
+
     override fun bindComponent() {
         setUpActionBar()
+        setUpRecyclerView()
     }
 
     override fun setResultListener() {

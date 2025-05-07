@@ -21,7 +21,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeEvent>() {
     val searchQuery = state.getLiveData("searchQuery", "")
     val photos: LiveData<PagingData<PhotoInfo>> = searchQuery.switchMap { query ->
-        searchPhotoUseCase(query, 10)
+        searchPhotoUseCase(query, 20)
             .cachedIn(viewModelScope)
             .asLiveData()
     }

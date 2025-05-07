@@ -9,7 +9,9 @@ import com.era.photosearch.domain.repository.PhotoRepository
 import com.era.photosearch.model.response.PhotoInfo
 import kotlinx.coroutines.flow.Flow
 
-class PhotoRepositoryImpl(private val apiService: ApiService) : PhotoRepository {
+class PhotoRepositoryImpl(
+    private val apiService: ApiService
+) : PhotoRepository {
     override fun search(
         query: String,
         perPage: Int

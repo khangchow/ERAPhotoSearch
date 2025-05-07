@@ -8,7 +8,9 @@ import com.era.photosearch.data.local.SearchQueryDao
 import com.era.photosearch.data.remote.ApiService
 import com.era.photosearch.data.remote.AuthInterceptor
 import com.era.photosearch.data.repository.PhotoRepositoryImpl
+import com.era.photosearch.data.repository.SearchRepositoryImpl
 import com.era.photosearch.domain.repository.PhotoRepository
+import com.era.photosearch.domain.repository.SearchRepository
 import com.era.photosearch.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -67,6 +69,11 @@ class AppModule {
     @Singleton
     fun providePhotoRepository(apiService: ApiService): PhotoRepository =
         PhotoRepositoryImpl(apiService)
+
+    @Provides
+    @Singleton
+    fun provideSearchRepository(searchQueryDao: SearchQueryDao): SearchRepository =
+        SearchRepositoryImpl(searchQueryDao)
 
     @Provides
     @Singleton

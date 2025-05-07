@@ -9,3 +9,10 @@ data class SearchQueryEntity(
     val id: Int,
     val content: String
 )
+
+data class SearchQuery(
+    val id: Int,
+    val content: String
+)
+
+fun SearchQueryEntity.toSearchQuery() = SearchQuery(id = id, content = content)
