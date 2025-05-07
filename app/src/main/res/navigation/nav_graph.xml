@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_photoDetailsFragment"
+            app:destination="@id/photoDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -22,5 +25,14 @@
         <argument
             android:name="searchQuery"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoDetailsFragment"
+        android:name="com.era.photosearch.presentation.photo_details.PhotoDetailsFragment"
+        android:label="Photo Details"
+        tools:layout="@layout/fragment_photo_details">
+        <argument
+            android:name="photoInfo"
+            app:argType="com.era.photosearch.model.response.PhotoInfo" />
     </fragment>
 </navigation>

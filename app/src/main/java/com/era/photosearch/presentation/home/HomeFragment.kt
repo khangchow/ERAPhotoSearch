@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
                 val start = original.indexOf(it)
                 val content = SpannableString(original).customSpan(
                     context = requireContext(),
-                    colorId = com.google.android.material.R.attr.colorPrimary,
+                    colorId = R.color.primary,
                     styleId = Typeface.BOLD,
                     startPosition = start,
                     endPosition = start + it.length
@@ -60,7 +60,12 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
 
     private fun setUpRecyclerView() {
         binding.rvPhoto.apply {
-            adapter = PhotoAdapter()
+            adapter = PhotoAdapter {
+                navigate(
+                    directions = HomeFragmentDirections.actionHomeFragmentToPhotoDetailsFragment(it),
+                    rootFragment = this@HomeFragment
+                )
+            }
             layoutManager =
                 GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
             setHasFixedSize(true)

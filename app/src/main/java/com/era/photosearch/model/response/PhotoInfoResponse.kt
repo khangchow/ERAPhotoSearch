@@ -1,5 +1,7 @@
 package com.era.photosearch.model.response
 
+import android.annotation.SuppressLint
+import com.era.photosearch.base.BaseModel
 import com.google.gson.annotations.SerializedName
 
 data class PhotoInfoResponse(
@@ -19,6 +21,7 @@ data class PhotoInfoResponse(
     val width: Int?
 )
 
+@SuppressLint("ParcelCreator")
 data class PhotoInfo(
     val alt: String,
     val avgColor: String,
@@ -31,7 +34,7 @@ data class PhotoInfo(
     val src: Src,
     val url: String,
     val width: Int
-)
+) : BaseModel()
 
 data class SrcResponse(
     val landscape: String?,

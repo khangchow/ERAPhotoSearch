@@ -7,7 +7,6 @@ import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -56,12 +55,8 @@ fun SpannableString.customSpan(
         )
     }
     if (colorId != null) {
-        val typedValue = TypedValue()
-        val theme = context.theme
-        theme.resolveAttribute(colorId, typedValue, true)
-        val color = ContextCompat.getColor(context, typedValue.resourceId)
         setSpan(
-            ForegroundColorSpan(color),
+            ForegroundColorSpan(ContextCompat.getColor(context, colorId)),
             start,
             end,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

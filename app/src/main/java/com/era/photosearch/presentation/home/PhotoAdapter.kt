@@ -10,10 +10,12 @@ import com.era.photosearch.databinding.ItemPhotoBinding
 import com.era.photosearch.model.response.PhotoInfo
 import com.era.photosearch.presentation.home.PhotoAdapter.PhotoViewHolder
 
-class PhotoAdapter : PagingDataAdapter<PhotoInfo, PhotoViewHolder>(PHOTO_COMPARATOR) {
+class PhotoAdapter(
+    private val onPhotoClicked: (PhotoInfo) -> Unit
+) : PagingDataAdapter<PhotoInfo, PhotoViewHolder>(PHOTO_COMPARATOR) {
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         val photo = getItem(position)
-        if (photo != null) holder.bind(photo)
+        if (photo != null) holder.bind(photo, onPhotoClicked)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
@@ -29,8 +31,11 @@ class PhotoAdapter : PagingDataAdapter<PhotoInfo, PhotoViewHolder>(PHOTO_COMPARA
     class PhotoViewHolder(private val binding: ItemPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(photo: PhotoInfo) {
-            Glide.with(binding.root.context).load(photo.src.original).into(binding.ivPhoto)
+        fun bind(photo: PhotoInfo, onPhotoClicked: (PhotoInfo) -> Unit) {
+            binding.apply {
+                root.setOnClickListener { onPhotoClicked(photo) }
+                Glide.with(root.context).load(photo.src.tiny).into(ivPhoto)
+            }
         }
     }
 
