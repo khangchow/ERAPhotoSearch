@@ -2,6 +2,7 @@ package com.era.photosearch.presentation
 
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import androidx.core.view.isInvisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,10 @@ class MainActivity : BaseActivity<MainEvent, ActivityMainBinding, MainViewModel>
 
     override suspend fun eventObserver() {
 
+    }
+
+    fun isLoading(isLoading: Boolean) {
+        binding.rlLoading.isInvisible = !isLoading
     }
 
     override fun bindComponent() {

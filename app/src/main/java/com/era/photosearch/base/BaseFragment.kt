@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import com.era.photosearch.presentation.MainActivity
 import com.era.photosearch.presentation.MainViewModel
 import kotlinx.coroutines.launch
 
@@ -34,6 +35,19 @@ abstract class BaseFragment<E : BaseEvent, VB : ViewBinding, VM : BaseViewModel<
         bindComponent()
         setResultListener()
         lifecycleScope.launch { eventObserver() }
+    }
+
+    protected fun isLoading(isLoading: Boolean) {
+        try {
+            (requireActivity() as MainActivity).isLoading(isLoading)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isLoading(false)
     }
 
     override fun onDestroyView() {

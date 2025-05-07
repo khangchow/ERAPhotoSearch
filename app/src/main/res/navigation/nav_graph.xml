@@ -35,4 +35,16 @@
             android:name="photoInfo"
             app:argType="com.era.photosearch.model.response.PhotoInfo" />
     </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.era.photosearch.presentation.webview.WebViewFragment"
+        android:label="Web View"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_webViewFragment"
+        app:destination="@id/webViewFragment" />
 </navigation>

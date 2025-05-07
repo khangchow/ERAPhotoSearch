@@ -6,7 +6,6 @@ import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -15,6 +14,7 @@ import com.era.photosearch.R
 import com.era.photosearch.base.BaseFragment
 import com.era.photosearch.databinding.FragmentPhotoDetailsBinding
 import com.era.photosearch.extension.customSpan
+import com.era.photosearch.extension.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,7 +51,11 @@ class PhotoDetailsFragment :
                 endPosition = start + args.photoInfo.photographer.length,
                 isUnderLine = true,
                 onClickSpan = {
-                    Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+                    navigate(
+                        directions = PhotoDetailsFragmentDirections.actionGlobalWebViewFragment(
+                            args.photoInfo.photographerUrl
+                        ), rootFragment = this@PhotoDetailsFragment
+                    )
                 })
             movementMethod = LinkMovementMethod.getInstance()
             highlightColor = Color.TRANSPARENT
