@@ -1,8 +1,8 @@
 package com.era.photosearch.model.response
 
-import android.annotation.SuppressLint
-import com.era.photosearch.base.BaseModel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class PhotoInfoResponse(
     val alt: String?,
@@ -21,7 +21,7 @@ data class PhotoInfoResponse(
     val width: Int?
 )
 
-@SuppressLint("ParcelCreator")
+@Parcelize
 data class PhotoInfo(
     val alt: String,
     val avgColor: String,
@@ -34,7 +34,7 @@ data class PhotoInfo(
     val src: Src,
     val url: String,
     val width: Int
-) : BaseModel()
+) : Parcelable
 
 data class SrcResponse(
     val landscape: String?,
@@ -47,6 +47,7 @@ data class SrcResponse(
     val tiny: String?
 )
 
+@Parcelize
 data class Src(
     val landscape: String,
     val large: String,
@@ -56,7 +57,7 @@ data class Src(
     val portrait: String,
     val small: String,
     val tiny: String
-)
+) : Parcelable
 
 fun SrcResponse?.toSrc() = Src(
     landscape = this?.landscape.orEmpty(),

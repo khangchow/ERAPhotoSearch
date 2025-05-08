@@ -45,8 +45,6 @@ class PhotoDetailsFragment :
             tvOriginalResolution.text =
                 getString(
                     R.string.photo_original_resolution,
-//                    viewModel.photoInfo?.width,
-//                    viewModel.photoInfo?.height
                     args.photoInfo.width,
                     args.photoInfo.height
                 )
@@ -56,7 +54,7 @@ class PhotoDetailsFragment :
     private fun setUpPhoto() {
         binding.ivPhoto.apply {
             postponeEnterTransition()
-            transitionName = viewModel.transitionName
+            transitionName = args.transitionName
             val enterTransition = TransitionInflater.from(requireContext()).inflateTransition(
                 android.R.transition.move
             )
@@ -71,42 +69,42 @@ class PhotoDetailsFragment :
                 val size: String
                 when (it) {
                     PhotoSize.LANDSCAPE -> {
-                        url = viewModel.photoInfo?.src?.landscape
+                        url = args.photoInfo.src.landscape
                         size = getString(R.string.landscape)
                     }
 
                     PhotoSize.LARGE -> {
-                        url = viewModel.photoInfo?.src?.large
+                        url = args.photoInfo.src.large
                         size = getString(R.string.large)
                     }
 
                     PhotoSize.EXTRA_LARGE -> {
-                        url = viewModel.photoInfo?.src?.large2x
+                        url = args.photoInfo.src.large2x
                         size = getString(R.string.extra_large)
                     }
 
                     PhotoSize.MEDIUM -> {
-                        url = viewModel.photoInfo?.src?.medium
+                        url = args.photoInfo.src.medium
                         size = getString(R.string.medium)
                     }
 
                     PhotoSize.ORIGINAL -> {
-                        url = viewModel.photoInfo?.src?.original
+                        url = args.photoInfo.src.original
                         size = getString(R.string.original)
                     }
 
                     PhotoSize.PORTRAIT -> {
-                        url = viewModel.photoInfo?.src?.portrait
+                        url = args.photoInfo.src.portrait
                         size = getString(R.string.portrait)
                     }
 
                     PhotoSize.SMALL -> {
-                        url = viewModel.photoInfo?.src?.small
+                        url = args.photoInfo.src.small
                         size = getString(R.string.small)
                     }
 
                     PhotoSize.TINY -> {
-                        url = viewModel.photoInfo?.src?.tiny
+                        url = args.photoInfo.src.tiny
                         size = getString(R.string.tiny)
                     }
                 }
@@ -168,20 +166,20 @@ class PhotoDetailsFragment :
     }
 
     private fun setUpPhotographerName() {
-        val original = getString(R.string.photographer_name, viewModel.photoInfo?.photographer)
-        val start = original.indexOf(viewModel.photoInfo?.photographer.orEmpty())
+        val original = getString(R.string.photographer_name, args.photoInfo.photographer)
+        val start = original.indexOf(args.photoInfo.photographer)
         binding.tvPhotographer.apply {
             text = SpannableString(original).customSpan(
                 context = requireContext(),
                 colorId = R.color.onPrimary,
                 styleId = Typeface.BOLD,
                 startPosition = start,
-                endPosition = start + (viewModel.photoInfo?.photographer?.length ?: 0),
+                endPosition = start + (args.photoInfo.photographer.length),
                 isUnderLine = true,
                 onClickSpan = {
                     navigate(
                         directions = PhotoDetailsFragmentDirections.actionGlobalWebViewFragment(
-                            viewModel.photoInfo?.photographerUrl.orEmpty()
+                            args.photoInfo.photographerUrl
                         ), rootFragment = this@PhotoDetailsFragment
                     )
                 })
