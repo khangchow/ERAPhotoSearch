@@ -18,11 +18,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    state: SavedStateHandle,
+    private val state: SavedStateHandle,
     getSearchQueriesUseCase: GetSearchQueriesUseCase,
     private val deleteSearchQueryUseCase: DeleteSearchQueryUseCase
 ) : BaseViewModel<SearchEvent>() {
-    private val _searchQuery = state.getLiveData("searchQuery", "")
+
+    companion object {
+        const val SEARCH_QUERY_KEY = "searchQuery"
+    }
+
+    private val _searchQuery = state.getLiveData(SEARCH_QUERY_KEY, "")
     val searchQuery: LiveData<String> = _searchQuery
     val histories: LiveData<PagingData<SearchQuery>> = searchQuery.switchMap { query ->
         getSearchQueriesUseCase(query, 30)
@@ -32,6 +37,7 @@ class SearchViewModel @Inject constructor(
 
     fun onQueryTextChanged(query: String) {
         _searchQuery.value = query
+        state[SEARCH_QUERY_KEY] = query
     }
 
     fun deleteSearchQuery(query: String) {

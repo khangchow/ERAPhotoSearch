@@ -35,6 +35,7 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
         FragmentSearchBinding::inflate
     override val viewModel: SearchViewModel by viewModels()
     private lateinit var searchItem: MenuItem
+    private lateinit var searchView: SearchView
 
     companion object {
         const val SEARCH_REQUEST_KEY = "SEARCH_REQUEST_KEY"
@@ -70,7 +71,7 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_search, menu)
                 searchItem = menu.findItem(R.id.action_search)
-                val searchView = searchItem.actionView as SearchView
+                searchView = searchItem.actionView as SearchView
                 searchView.apply {
                     searchItem.expandActionView()
                     setQuery(viewModel.searchQuery.value, false)
@@ -194,6 +195,11 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
                 lifecycleScope.launch { (adapter as SearchQueryAdapter).submitData(it) }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        searchView.setOnQueryTextListener(null)
     }
 
     override fun bindComponent() {

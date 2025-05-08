@@ -1,5 +1,5 @@
 package com.era.photosearch.util
 
-object Constants {
-    const val APP_DATABASE = "ERA_DATABASE"
+enum class PhotoSize {
+    LANDSCAPE, LARGE, EXTRA_LARGE, MEDIUM, ORIGINAL, PORTRAIT, SMALL, TINY
 }

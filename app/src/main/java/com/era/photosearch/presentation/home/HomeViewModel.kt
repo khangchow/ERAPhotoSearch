@@ -16,10 +16,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    state: SavedStateHandle,
+    private val state: SavedStateHandle,
     searchPhotoUseCase: SearchPhotoUseCase
 ) : BaseViewModel<HomeEvent>() {
-    val searchQuery = state.getLiveData("searchQuery", "")
+
+    companion object {
+        const val SEARCH_QUERY_KEY = "searchQuery"
+    }
+
+    private val _searchQuery = state.getLiveData(SEARCH_QUERY_KEY, "")
+    val searchQuery: LiveData<String> = _searchQuery
     val photos: LiveData<PagingData<PhotoInfo>> = searchQuery.switchMap { query ->
         searchPhotoUseCase(query, 20)
             .cachedIn(viewModelScope)
@@ -27,10 +33,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSearchQueryChanged(query: String) {
-        searchQuery.value = query
+        _searchQuery.value = query
+        state[SEARCH_QUERY_KEY] = query
     }
 }
 
-sealed class HomeEvent : BaseEvent() {
-
-}
+sealed class HomeEvent : BaseEvent()

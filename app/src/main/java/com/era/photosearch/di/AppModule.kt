@@ -11,7 +11,6 @@ import com.era.photosearch.data.repository.PhotoRepositoryImpl
 import com.era.photosearch.data.repository.SearchRepositoryImpl
 import com.era.photosearch.domain.repository.PhotoRepository
 import com.era.photosearch.domain.repository.SearchRepository
-import com.era.photosearch.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,7 +33,7 @@ class AppModule {
     fun provideDatabase(
         app: Application,
     ): ERADatabase =
-        Room.databaseBuilder(app, ERADatabase::class.java, Constants.APP_DATABASE).build()
+        Room.databaseBuilder(app, ERADatabase::class.java, BuildConfig.DATABASE_NAME).build()
 
     @Provides
     @Singleton

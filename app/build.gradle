@@ -25,9 +25,11 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "BASE_URL", "\"https://api.pexels.com/v1/\""
+            buildConfigField "String", "DATABASE_NAME", "\"era_database\""
         }
         release {
             buildConfigField "String", "BASE_URL", "\"https://api.pexels.com/v1/\""
+            buildConfigField "String", "DATABASE_NAME", "\"era_database\""
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

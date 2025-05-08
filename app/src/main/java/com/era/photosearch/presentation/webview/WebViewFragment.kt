@@ -31,10 +31,7 @@ class WebViewFragment :
         binding.webView.apply {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
-            webViewClient = ERAWebViewClient {
-                toolbar.title = it
-                isLoading(false)
-            }
+            webViewClient = ERAWebViewClient { isLoading(false) }
             loadUrl(args.url)
         }
     }

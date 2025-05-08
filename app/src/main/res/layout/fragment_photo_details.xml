@@ -23,20 +23,36 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPhotographer"
             style="?attr/textAppearanceBodyLarge"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_profile"
+            android:drawablePadding="@dimen/padding_small"
+            android:gravity="center"
             android:textColor="?attr/colorOnPrimary"
             android:textStyle="italic"
             tools:text="@string/photographer_name" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSize"
+            android:id="@+id/tvOriginalResolution"
             style="?attr/textAppearanceBodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:textColor="?attr/colorOnPrimary"
             android:textStyle="italic"
-            tools:text="@string/photo_size" />
+            tools:text="@string/photo_original_resolution" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCurrentSize"
+            style="?attr/textAppearanceBodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:drawableEnd="@drawable/ic_edit"
+            android:drawablePadding="@dimen/padding_small"
+            android:gravity="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:textStyle="italic"
+            tools:text="@string/photo_current_size" />
     </LinearLayout>
 </RelativeLayout>
