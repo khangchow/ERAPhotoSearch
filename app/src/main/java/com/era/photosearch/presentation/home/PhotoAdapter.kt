@@ -39,6 +39,7 @@ class PhotoAdapter(
             binding.apply {
                 ivPhoto.transitionName = StringBuilder(photo.id.toString()).toString()
                 root.setOnClickListener { onPhotoClicked(ivPhoto, photo, ivPhoto.transitionName) }
+                Glide.with(root.context).load(photo.src.original).preload()
                 Glide.with(root.context).load(photo.src.tiny).into(ivPhoto)
             }
         }
