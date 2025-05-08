@@ -15,6 +15,13 @@
         android:scaleType="centerInside"
         android:src="@drawable/ic_launcher_background" />
 
+    <View
+        android:id="@+id/vInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/llInfo"
+        app:layout_constraintTop_toTopOf="@id/flInfoNavigation" />
+
     <FrameLayout
         android:id="@+id/flInfoNavigation"
         android:layout_width="match_parent"
@@ -75,11 +82,4 @@
             android:textStyle="italic"
             tools:text="@string/photo_current_size" />
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:id="@+id/vInfo"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/llInfo"
-        app:layout_constraintTop_toTopOf="@id/flInfoNavigation" />
 </androidx.constraintlayout.motion.widget.MotionLayout>
