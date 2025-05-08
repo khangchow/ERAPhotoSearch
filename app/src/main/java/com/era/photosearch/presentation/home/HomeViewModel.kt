@@ -33,6 +33,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSearchQueryChanged(query: String) {
+        if (searchQuery.value == query) return
         _searchQuery.value = query
         state[SEARCH_QUERY_KEY] = query
     }
