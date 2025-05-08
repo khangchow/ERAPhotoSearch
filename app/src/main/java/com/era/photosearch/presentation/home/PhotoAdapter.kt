@@ -2,6 +2,7 @@ package com.era.photosearch.presentation.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import com.era.photosearch.model.response.PhotoInfo
 import com.era.photosearch.presentation.home.PhotoAdapter.PhotoViewHolder
 
 class PhotoAdapter(
-    private val onPhotoClicked: (PhotoInfo) -> Unit
+    private val onPhotoClicked: (AppCompatImageView, PhotoInfo, String) -> Unit
 ) : PagingDataAdapter<PhotoInfo, PhotoViewHolder>(PHOTO_COMPARATOR) {
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         val photo = getItem(position)
@@ -31,9 +32,13 @@ class PhotoAdapter(
     class PhotoViewHolder(private val binding: ItemPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(photo: PhotoInfo, onPhotoClicked: (PhotoInfo) -> Unit) {
+        fun bind(
+            photo: PhotoInfo,
+            onPhotoClicked: (AppCompatImageView, PhotoInfo, String) -> Unit
+        ) {
             binding.apply {
-                root.setOnClickListener { onPhotoClicked(photo) }
+                ivPhoto.transitionName = StringBuilder(photo.id.toString()).toString()
+                root.setOnClickListener { onPhotoClicked(ivPhoto, photo, ivPhoto.transitionName) }
                 Glide.with(root.context).load(photo.src.tiny).into(ivPhoto)
             }
         }

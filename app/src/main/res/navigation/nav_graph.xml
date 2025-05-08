@@ -34,6 +34,9 @@
         <argument
             android:name="photoInfo"
             app:argType="com.era.photosearch.model.response.PhotoInfo" />
+        <argument
+            android:name="transitionName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"

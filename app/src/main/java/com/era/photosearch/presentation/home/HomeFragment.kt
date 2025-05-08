@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.isGone
@@ -14,6 +15,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import com.era.photosearch.R
 import com.era.photosearch.base.BaseFragment
@@ -60,10 +62,23 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
 
     private fun setUpRecyclerView() {
         binding.rvPhoto.apply {
-            adapter = PhotoAdapter {
+            postponeEnterTransition()
+            viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    viewTreeObserver.removeOnPreDrawListener(this)
+                    startPostponedEnterTransition()
+                    return true
+                }
+            })
+            adapter = PhotoAdapter { sharedView, data, transitionName ->
+                val extras =
+                    FragmentNavigatorExtras(sharedView to data.id.toString())
                 navigate(
-                    directions = HomeFragmentDirections.actionHomeFragmentToPhotoDetailsFragment(it),
-                    rootFragment = this@HomeFragment
+                    directions = HomeFragmentDirections.actionHomeFragmentToPhotoDetailsFragment(
+                        data, transitionName
+                    ),
+                    rootFragment = this@HomeFragment,
+                    extras = extras
                 )
             }
             layoutManager =
