@@ -9,15 +9,18 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.era.photosearch.base.BaseEvent
 import com.era.photosearch.base.BaseViewModel
+import com.era.photosearch.domain.usecase.DeleteSearchQueryUseCase
 import com.era.photosearch.domain.usecase.GetSearchQueriesUseCase
 import com.era.photosearch.model.entity.SearchQuery
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     state: SavedStateHandle,
-    getSearchQueriesUseCase: GetSearchQueriesUseCase
+    getSearchQueriesUseCase: GetSearchQueriesUseCase,
+    private val deleteSearchQueryUseCase: DeleteSearchQueryUseCase
 ) : BaseViewModel<SearchEvent>() {
     private val _searchQuery = state.getLiveData("searchQuery", "")
     val searchQuery: LiveData<String> = _searchQuery
@@ -30,8 +33,16 @@ class SearchViewModel @Inject constructor(
     fun onQueryTextChanged(query: String) {
         _searchQuery.value = query
     }
+
+    fun deleteSearchQuery(query: String) {
+        viewModelScope.launch {
+            deleteSearchQueryUseCase(query).execute {
+                sendEvent(SearchEvent.DeletedSearchQuery(query))
+            }
+        }
+    }
 }
 
 sealed class SearchEvent : BaseEvent() {
-
+    data class DeletedSearchQuery(val query: String) : SearchEvent()
 }

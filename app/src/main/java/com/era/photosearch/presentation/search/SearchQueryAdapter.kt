@@ -17,6 +17,10 @@ class SearchQueryAdapter(
         if (searchQuery != null) holder.bind(searchQuery, onItemClicked)
     }
 
+    fun getSearchQueryAt(position: Int): SearchQuery? {
+        return getItem(position)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QueryViewHolder {
         return QueryViewHolder(
             ItemSearchQueryBinding.inflate(

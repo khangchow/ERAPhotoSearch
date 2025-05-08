@@ -16,6 +16,23 @@ open class BaseViewModel<T : BaseEvent> @Inject constructor() : ViewModel() {
             eventSharedFlow.emit(event)
         }
     }
+
+    fun <T> Result<T>.execute(
+        onErrorException: (() -> Unit)? = null,
+        onSuccess: ((T) -> Unit)
+    ): T? {
+        return when (this) {
+            is Result.Success -> {
+                onSuccess.invoke(data)
+                data
+            }
+
+            is Result.ErrorException -> {
+                onErrorException?.invoke()
+                null
+            }
+        }
+    }
 }
 
 open class BaseEvent

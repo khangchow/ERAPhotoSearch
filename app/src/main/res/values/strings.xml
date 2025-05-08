@@ -4,4 +4,5 @@
     <string name="search_result">Results for: %s</string>
     <string name="photographer_name">Photographer: %s</string>
     <string name="photo_size">Size: %d x %d</string>
+    <string name="deleted">Deleted %s</string>
 </resources>

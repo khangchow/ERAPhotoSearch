@@ -28,4 +28,8 @@ class SearchRepositoryImpl(
             pagingSourceFactory = { searchQueryDao.getSearchQueries(searchQuery) }
         ).flow
     }
+
+    override suspend fun deleteByQuery(searchQuery: String) {
+        searchQueryDao.deleteByQuery(searchQuery)
+    }
 }

@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface SearchRepository {
     suspend fun saveSearchQuery(searchQuery: String)
     fun getSearchQueries(searchQuery: String, perPage: Int): Flow<PagingData<SearchQueryEntity>>
+    suspend fun deleteByQuery(searchQuery: String)
 }
