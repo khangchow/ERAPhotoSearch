@@ -47,12 +47,12 @@ class SearchViewModel @Inject constructor(
     }
 
     fun confirmDeleteQuery() {
-        state[PENDING_QUERY_KEY] = ""
         viewModelScope.launch {
             val pendingQuery = state.get<String>(PENDING_QUERY_KEY).orEmpty()
             deleteSearchQueryUseCase(pendingQuery).execute {
                 sendEvent(SearchEvent.DeletedSearchQuery(pendingQuery))
             }
+            state[PENDING_QUERY_KEY] = ""
         }
     }
 }
