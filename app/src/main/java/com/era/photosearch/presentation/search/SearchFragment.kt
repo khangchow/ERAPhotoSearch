@@ -26,7 +26,7 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
     override val bindingInflater: ((LayoutInflater, ViewGroup?, Boolean) -> FragmentSearchBinding) =
         FragmentSearchBinding::inflate
     override val viewModel: SearchViewModel by viewModels()
-    private lateinit var searchView: SearchView
+    private lateinit var searchItem: MenuItem
 
     companion object {
         const val SEARCH_REQUEST_KEY = "SEARCH_REQUEST_KEY"
@@ -37,13 +37,22 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
 
     }
 
+    private fun onSelectQuery(query: String) {
+        mainViewModel.saveSearchQuery(query)
+        setFragmentResult(
+            SEARCH_REQUEST_KEY,
+            bundleOf(SEARCH_QUERY_BUNDLE_KEY to query)
+        )
+        searchItem.collapseActionView()
+    }
+
     private fun setUpActionBar() {
         val menuHost: MenuHost = requireActivity()
         val menuProvider = object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_search, menu)
-                val searchItem = menu.findItem(R.id.action_search)
-                searchView = searchItem.actionView as SearchView
+                searchItem = menu.findItem(R.id.action_search)
+                val searchView = searchItem.actionView as SearchView
                 searchView.apply {
                     searchItem.expandActionView()
                     setQuery(viewModel.searchQuery.value, false)
@@ -52,12 +61,7 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
                     }
                     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                         override fun onQueryTextSubmit(query: String?): Boolean {
-                            mainViewModel.saveSearchQuery(query.orEmpty())
-                            setFragmentResult(
-                                SEARCH_REQUEST_KEY,
-                                bundleOf(SEARCH_QUERY_BUNDLE_KEY to query.orEmpty())
-                            )
-                            searchItem.collapseActionView()
+                            onSelectQuery(query.orEmpty())
                             return false
                         }
 
@@ -79,7 +83,7 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
 
     private fun setUpRecyclerView() {
         binding.rvHistory.apply {
-            adapter = SearchQueryAdapter()
+            adapter = SearchQueryAdapter { onSelectQuery(it) }
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             viewModel.histories.observe(viewLifecycleOwner) {

@@ -9,10 +9,12 @@ import com.era.photosearch.databinding.ItemSearchQueryBinding
 import com.era.photosearch.model.entity.SearchQuery
 import com.era.photosearch.presentation.search.SearchQueryAdapter.QueryViewHolder
 
-class SearchQueryAdapter : PagingDataAdapter<SearchQuery, QueryViewHolder>(QUERY_COMPARATOR) {
+class SearchQueryAdapter(
+    private val onItemClicked: (String) -> Unit
+) : PagingDataAdapter<SearchQuery, QueryViewHolder>(QUERY_COMPARATOR) {
     override fun onBindViewHolder(holder: QueryViewHolder, position: Int) {
         val searchQuery = getItem(position)
-        if (searchQuery != null) holder.bind(searchQuery)
+        if (searchQuery != null) holder.bind(searchQuery, onItemClicked)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QueryViewHolder {
@@ -28,8 +30,11 @@ class SearchQueryAdapter : PagingDataAdapter<SearchQuery, QueryViewHolder>(QUERY
     class QueryViewHolder(private val binding: ItemSearchQueryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(searchQuery: SearchQuery) {
-            binding.tvQuery.text = searchQuery.content
+        fun bind(searchQuery: SearchQuery, onItemClicked: (String) -> Unit) {
+            binding.apply {
+                root.setOnClickListener { onItemClicked(searchQuery.content) }
+                tvQuery.text = searchQuery.content
+            }
         }
     }
 
