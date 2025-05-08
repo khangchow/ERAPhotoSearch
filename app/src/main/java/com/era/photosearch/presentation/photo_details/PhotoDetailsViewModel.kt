@@ -1,7 +1,6 @@
 package com.era.photosearch.presentation.photo_details
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.era.photosearch.base.BaseEvent
 import com.era.photosearch.base.BaseViewModel
@@ -11,12 +10,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhotoDetailsViewModel @Inject constructor(
-    state: SavedStateHandle
+    private val state: SavedStateHandle
 ) : BaseViewModel<PhotoDetailsEvent>() {
-    private val _photoSize = MutableLiveData<PhotoSize>(PhotoSize.SMALL)
+
+    companion object {
+        const val PHOTO_SIZE_KEY = "PHOTO_SIZE_KEY"
+    }
+
+    private val _photoSize = state.getLiveData<PhotoSize>(PHOTO_SIZE_KEY, PhotoSize.SMALL)
     val photoSize: LiveData<PhotoSize> = _photoSize
 
-
+    fun updateSize(photoSize: PhotoSize) {
+        _photoSize.value = photoSize
+        state[PHOTO_SIZE_KEY] = photoSize
+    }
 }
 
 sealed class PhotoDetailsEvent : BaseEvent() {

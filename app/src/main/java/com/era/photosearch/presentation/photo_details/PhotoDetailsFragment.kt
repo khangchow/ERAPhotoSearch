@@ -8,7 +8,9 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
@@ -21,6 +23,7 @@ import com.era.photosearch.base.BaseFragment
 import com.era.photosearch.databinding.FragmentPhotoDetailsBinding
 import com.era.photosearch.extension.customSpan
 import com.era.photosearch.extension.navigate
+import com.era.photosearch.presentation.select_photo_size.SelectPhotoSizeBottomSheetDialogFragment
 import com.era.photosearch.util.PhotoSize
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
@@ -110,6 +113,7 @@ class PhotoDetailsFragment :
                 }
                 setUpPhotoSize(size)
                 try {
+                    isLoading(true)
                     Glide.with(requireContext()).load(url).dontTransform()
                         .listener(
                             object : RequestListener<Drawable> {
@@ -131,6 +135,7 @@ class PhotoDetailsFragment :
                                     isFirstResource: Boolean
                                 ): Boolean {
                                     startPostponedEnterTransition()
+                                    isLoading(false)
                                     return false
                                 }
                             }
@@ -192,6 +197,19 @@ class PhotoDetailsFragment :
     }
 
     override fun setResultListener() {
+        setSelectSizeListener()
+    }
 
+    private fun setSelectSizeListener() {
+        setFragmentResultListener(SelectPhotoSizeBottomSheetDialogFragment.SELECT_SIZE_REQUEST_KEY) { _, bundle ->
+            findNavController().navigateUp()
+            val size = PhotoSize.valueOf(
+                bundle.getString(
+                    SelectPhotoSizeBottomSheetDialogFragment.SIZE_BUNDLE_KEY,
+                    PhotoSize.SMALL.name
+                )
+            )
+            viewModel.updateSize(size)
+        }
     }
 }
