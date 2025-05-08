@@ -6,8 +6,9 @@ import android.graphics.drawable.Drawable
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
+import android.view.ScaleGestureDetector
+import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.view.ViewGroup
-import androidx.core.view.isInvisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -35,6 +36,8 @@ class PhotoDetailsFragment :
         FragmentPhotoDetailsBinding::inflate
     override val viewModel: PhotoDetailsViewModel by viewModels()
     private val args: PhotoDetailsFragmentArgs by navArgs()
+    private lateinit var scaleGestureDetector: ScaleGestureDetector
+    private var scaleFactor = 1.0f
 
     override suspend fun eventObserver() {
 
@@ -44,7 +47,6 @@ class PhotoDetailsFragment :
         setUpPhoto()
         setUpPhotographerName()
         binding.apply {
-            root.setOnClickListener { llInfo.isInvisible = !llInfo.isInvisible }
             tvOriginalResolution.text =
                 getString(
                     R.string.photo_original_resolution,
@@ -56,6 +58,12 @@ class PhotoDetailsFragment :
 
     private fun setUpPhoto() {
         binding.ivPhoto.apply {
+            scaleGestureDetector = ScaleGestureDetector(requireContext(), ScaleListener())
+            setOnTouchListener { _, event ->
+                scaleGestureDetector.onTouchEvent(event)
+                performClick()
+                true
+            }
             postponeEnterTransition()
             transitionName = args.transitionName
             val enterTransition = TransitionInflater.from(requireContext()).inflateTransition(
@@ -210,6 +218,19 @@ class PhotoDetailsFragment :
                 )
             )
             viewModel.updateSize(size)
+        }
+    }
+
+
+    inner class ScaleListener : SimpleOnScaleGestureListener() {
+        // when a scale gesture is detected, use it to resize the image
+        override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
+            scaleFactor *= scaleGestureDetector.scaleFactor
+            binding.ivPhoto.apply {
+                scaleX = scaleFactor
+                scaleY = scaleFactor
+            }
+            return true
         }
     }
 }
