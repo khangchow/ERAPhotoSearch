@@ -207,7 +207,7 @@ class PhotoDetailsFragment :
                 colorId = R.color.onPrimary,
                 styleId = Typeface.BOLD,
                 startPosition = start,
-                endPosition = start + (args.photoInfo.photographer.length),
+                endPosition = start + args.photoInfo.photographer.length,
                 isUnderLine = true,
                 onClickSpan = {
                     navigate(

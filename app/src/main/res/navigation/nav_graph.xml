@@ -62,4 +62,16 @@
             android:name="size"
             app:argType="com.era.photosearch.util.PhotoSize" />
     </dialog>
+    <dialog
+        android:id="@+id/alertDialogFragment"
+        android:name="com.era.photosearch.presentation.alert_dialog.AlertDialogFragment"
+        android:label="AlertDialogFragment"
+        tools:layout="@layout/dialog_alert">
+        <argument
+            android:name="info"
+            app:argType="com.era.photosearch.model.ui.AlertInfo" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_alertDialogFragment"
+        app:destination="@id/alertDialogFragment" />
 </navigation>

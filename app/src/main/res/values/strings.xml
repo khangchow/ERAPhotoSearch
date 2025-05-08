@@ -15,4 +15,8 @@
     <string name="small">Small</string>
     <string name="tiny">Tiny</string>
     <string name="title_select_photo_size">Select Photo Size</string>
+    <string name="warning">Warning</string>
+    <string name="delete_query_confirmation">Are you sure to delete: %s?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

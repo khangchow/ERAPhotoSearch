@@ -25,6 +25,7 @@ class SearchViewModel @Inject constructor(
 
     companion object {
         const val SEARCH_QUERY_KEY = "searchQuery"
+        const val PENDING_QUERY_KEY = "PENDING_QUERY_KEY"
     }
 
     private val _searchQuery = state.getLiveData(SEARCH_QUERY_KEY, "")
@@ -41,9 +42,16 @@ class SearchViewModel @Inject constructor(
     }
 
     fun deleteSearchQuery(query: String) {
+        state[PENDING_QUERY_KEY] = query
+        sendEvent(SearchEvent.ConfirmDelete(query))
+    }
+
+    fun confirmDeleteQuery() {
+        state[PENDING_QUERY_KEY] = ""
         viewModelScope.launch {
-            deleteSearchQueryUseCase(query).execute {
-                sendEvent(SearchEvent.DeletedSearchQuery(query))
+            val pendingQuery = state.get<String>(PENDING_QUERY_KEY).orEmpty()
+            deleteSearchQueryUseCase(pendingQuery).execute {
+                sendEvent(SearchEvent.DeletedSearchQuery(pendingQuery))
             }
         }
     }
@@ -51,4 +59,5 @@ class SearchViewModel @Inject constructor(
 
 sealed class SearchEvent : BaseEvent() {
     data class DeletedSearchQuery(val query: String) : SearchEvent()
+    data class ConfirmDelete(val query: String) : SearchEvent()
 }

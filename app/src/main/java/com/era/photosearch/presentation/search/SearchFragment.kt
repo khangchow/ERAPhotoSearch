@@ -2,6 +2,7 @@ package com.era.photosearch.presentation.search
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,6 +15,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,7 +26,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.era.photosearch.R
 import com.era.photosearch.base.BaseFragment
 import com.era.photosearch.databinding.FragmentSearchBinding
+import com.era.photosearch.extension.navigate
 import com.era.photosearch.model.entity.SearchQuery
+import com.era.photosearch.model.ui.AlertInfo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.max
@@ -40,6 +44,7 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
     companion object {
         const val SEARCH_REQUEST_KEY = "SEARCH_REQUEST_KEY"
         const val SEARCH_QUERY_BUNDLE_KEY = "SEARCH_QUERY_BUNDLE_KEY"
+        const val REASON_DELETE_QUERY = "REASON_DELETE_QUERY"
     }
 
     override suspend fun eventObserver() {
@@ -51,6 +56,23 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
                         getString(R.string.deleted, it.query),
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+
+                is SearchEvent.ConfirmDelete -> {
+                    navigate(
+                        directions = SearchFragmentDirections.actionGlobalAlertDialogFragment(
+                            AlertInfo(
+                                title = getString(R.string.warning),
+                                titleGravity = Gravity.CENTER,
+                                descriptionGravity = Gravity.CENTER,
+                                description = getString(R.string.delete_query_confirmation, it.query),
+                                positiveText = getString(R.string.yes),
+                                negativeText = getString(R.string.no),
+                                reason = REASON_DELETE_QUERY,
+                            )
+                        ),
+                        rootFragment = this@SearchFragment
+                    )
                 }
             }
         }
@@ -208,6 +230,12 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
     }
 
     override fun setResultListener() {
+        setConfirmDeleteListener()
+    }
 
+    private fun setConfirmDeleteListener() {
+        setFragmentResultListener(REASON_DELETE_QUERY) { _, _ ->
+            viewModel.confirmDeleteQuery()
+        }
     }
 }
