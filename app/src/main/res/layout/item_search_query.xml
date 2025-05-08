@@ -17,7 +17,7 @@
         android:id="@+id/tvQuery"
         style="?attr/textAppearanceTitleMedium"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/margin_small"
         android:gravity="center_vertical"
