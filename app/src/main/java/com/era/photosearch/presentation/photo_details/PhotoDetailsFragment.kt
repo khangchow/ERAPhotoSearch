@@ -154,10 +154,12 @@ class PhotoDetailsFragment :
                 endPosition = start + size.length,
                 isUnderLine = true,
                 onClickSpan = {
-//                    navigate(
-//                        directions = PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToSelectPhotoSizeBottomSheetDialogFragment(),
-//                        rootFragment = this@PhotoDetailsFragment
-//                    )
+                    navigate(
+                        directions = PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToSelectPhotoSizeBottomSheetDialogFragment(
+                            viewModel.photoSize.value ?: return@customSpan
+                        ),
+                        rootFragment = this@PhotoDetailsFragment
+                    )
                 })
             movementMethod = LinkMovementMethod.getInstance()
             highlightColor = Color.TRANSPARENT

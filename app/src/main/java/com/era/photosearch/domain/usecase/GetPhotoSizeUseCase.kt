@@ -14,11 +14,11 @@ import javax.inject.Singleton
 class GetPhotoSizeUseCase @Inject constructor(
     @IODispatcher private val dispatcher: CoroutineDispatcher
 ) {
-    suspend operator fun invoke(selectedSize: PhotoSize): Result<List<PhotoSizeUiModel>> {
+    suspend operator fun invoke(selectedSize: PhotoSize?): Result<List<PhotoSizeUiModel>> {
         return withContext(dispatcher) {
             getResult {
                 PhotoSize.entries.map {
-                    PhotoSizeUiModel(size = it.name, isSelected = it == selectedSize)
+                    PhotoSizeUiModel(size = it, isSelected = it == selectedSize)
                 }.toList()
             }
         }
