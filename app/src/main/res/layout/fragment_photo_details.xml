@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/fragment_photo_details_scene">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivPhoto"
@@ -12,14 +15,30 @@
         android:scaleType="centerInside"
         android:src="@drawable/ic_launcher_background" />
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/flInfoNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_semi_transparent_top_round"
+        android:paddingTop="@dimen/padding_small"
+        app:layout_constraintBottom_toTopOf="@id/llInfo">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_arrow_down" />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="@color/background_gray_semi_transparent"
         android:orientation="vertical"
-        android:padding="@dimen/padding_medium">
+        android:padding="@dimen/padding_medium"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPhotographer"
@@ -55,5 +74,12 @@
             android:textColor="?attr/colorOnPrimary"
             android:textStyle="italic"
             tools:text="@string/photo_current_size" />
-    </LinearLayout>
-</RelativeLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/vInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/llInfo"
+        app:layout_constraintTop_toTopOf="@id/flInfoNavigation" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

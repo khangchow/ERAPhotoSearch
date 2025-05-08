@@ -38,6 +38,7 @@ class PhotoDetailsFragment :
     private val args: PhotoDetailsFragmentArgs by navArgs()
     private lateinit var scaleGestureDetector: ScaleGestureDetector
     private var scaleFactor = 1.0f
+    private var isInfoExpanded = true
 
     override suspend fun eventObserver() {
 
@@ -46,6 +47,7 @@ class PhotoDetailsFragment :
     override fun bindComponent() {
         setUpPhoto()
         setUpPhotographerName()
+        setUpInfoSectionAnimation()
         binding.apply {
             tvOriginalResolution.text =
                 getString(
@@ -53,6 +55,22 @@ class PhotoDetailsFragment :
                     args.photoInfo.width,
                     args.photoInfo.height
                 )
+        }
+    }
+
+    private fun setUpInfoSectionAnimation() {
+        binding.apply {
+            vInfo.setOnClickListener {
+                if (isInfoExpanded) {
+                    isInfoExpanded = false
+                    ivArrow.setImageResource(R.drawable.ic_arrow_up)
+                    motionLayout.transitionToEnd()
+                } else {
+                    isInfoExpanded = true
+                    ivArrow.setImageResource(R.drawable.ic_arrow_down)
+                    motionLayout.transitionToStart()
+                }
+            }
         }
     }
 
@@ -220,7 +238,6 @@ class PhotoDetailsFragment :
             viewModel.updateSize(size)
         }
     }
-
 
     inner class ScaleListener : SimpleOnScaleGestureListener() {
         // when a scale gesture is detected, use it to resize the image
