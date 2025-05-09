@@ -96,8 +96,8 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
                         swipeRefreshLayout.isRefreshing = false
                         if (loadStates.refresh is LoadState.NotLoading) {
                             when {
-                                loadStates.append.endOfPaginationReached -> {} // no more data to load
-                                loadStates.source.prepend.endOfPaginationReached -> {
+                                (adapter?.itemCount
+                                    ?: 0) > 0 && loadStates.source.prepend.endOfPaginationReached -> {
                                     // load more when no internet
                                     onBottomReached {
                                         (adapter as PhotoAdapter).retry()
