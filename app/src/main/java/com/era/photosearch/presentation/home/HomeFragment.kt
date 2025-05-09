@@ -45,8 +45,11 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
         setUpActionBar()
         setUpResultText()
         setUpRecyclerView()
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            (binding.rvPhoto.adapter as PhotoAdapter).refresh()
+        binding.apply {
+            swipeRefreshLayout.setOnRefreshListener {
+                (rvPhoto.adapter as PhotoAdapter).refresh()
+            }
+            btnExplore.setOnClickListener { goToSearch() }
         }
     }
 
@@ -148,19 +151,21 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
-                    R.id.action_search -> {
-                        navigate(
-                            directions = HomeFragmentDirections.actionHomeFragmentToSearchFragment(
-                                viewModel.searchQuery.value.orEmpty()
-                            ),
-                            rootFragment = this@HomeFragment
-                        )
-                    }
+                    R.id.action_search -> goToSearch()
                 }
                 return true
             }
         }
         menuHost.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    private fun goToSearch() {
+        navigate(
+            directions = HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                viewModel.searchQuery.value.orEmpty()
+            ),
+            rootFragment = this@HomeFragment
+        )
     }
 
     override fun setResultListener() {
