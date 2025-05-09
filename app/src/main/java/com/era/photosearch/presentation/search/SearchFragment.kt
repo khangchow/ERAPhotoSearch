@@ -65,7 +65,10 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
                                 title = getString(R.string.warning),
                                 titleGravity = Gravity.CENTER,
                                 descriptionGravity = Gravity.CENTER,
-                                description = getString(R.string.delete_query_confirmation, it.query),
+                                description = getString(
+                                    R.string.delete_query_confirmation,
+                                    it.query
+                                ),
                                 positiveText = getString(R.string.yes),
                                 negativeText = getString(R.string.no),
                                 reason = REASON_DELETE_QUERY,
@@ -95,6 +98,7 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
                 searchItem = menu.findItem(R.id.action_search)
                 searchView = searchItem.actionView as SearchView
                 searchView.apply {
+                    setMaxWidth(Integer.MAX_VALUE)
                     searchItem.expandActionView()
                     setQuery(viewModel.searchQuery.value, false)
                     setOnQueryTextFocusChangeListener { _, hasFocus ->
