@@ -1,11 +1,26 @@
 package com.era.photosearch.extension
 
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.DialogFragmentNavigator
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
+import com.era.photosearch.NavGraphDirections
+import com.era.photosearch.model.ui.AlertInfo
+
+fun NavController.showAlertDialog(alertInfo: AlertInfo) {
+    val direction: NavGraphDirections.ActionGlobalAlertDialogFragment =
+        NavGraphDirections.actionGlobalAlertDialogFragment(alertInfo)
+    navigate(direction)
+}
+
+fun Fragment.showAlertDialog(alertInfo: AlertInfo) {
+    val direction: NavGraphDirections.ActionGlobalAlertDialogFragment =
+        NavGraphDirections.actionGlobalAlertDialogFragment(alertInfo)
+    findNavController().navigate(direction)
+}
 
 fun Fragment.navigate(
     directions: NavDirections,

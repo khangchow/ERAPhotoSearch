@@ -1,26 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
-    android:orientation="vertical"
     android:padding="@dimen/padding_medium">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvResult"
-        style="?attr/textAppearanceBodyLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:background="@drawable/bg_primary_stroke_round"
-        android:padding="@dimen/padding_small"
-        android:textColor="?attr/colorOnSurface"
-        android:textStyle="italic"
-        tools:text="Results for: Cat" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPhoto"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</androidx.appcompat.widget.LinearLayoutCompat>
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvResult"
+            style="?attr/textAppearanceBodyLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:background="@drawable/bg_primary_stroke_round"
+            android:padding="@dimen/padding_small"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="italic"
+            tools:text="Results for: Cat" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvResult" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnExplore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_positive_button"
+            android:paddingHorizontal="@dimen/padding_large"
+            android:text="@string/uncover_stunning_images_now"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorOnPrimary" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEmpty"
+            style="?attr/textAppearanceTitleMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_primary_stroke_round"
+            android:gravity="center"
+            android:padding="@dimen/padding_small"
+            android:text="@string/empty_search_result_alert"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+    </RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

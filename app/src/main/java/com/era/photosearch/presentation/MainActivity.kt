@@ -1,5 +1,6 @@
 package com.era.photosearch.presentation
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.core.view.isInvisible
@@ -10,6 +11,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.era.photosearch.R
 import com.era.photosearch.base.BaseActivity
 import com.era.photosearch.databinding.ActivityMainBinding
+import com.era.photosearch.extension.showAlertDialog
+import com.era.photosearch.model.ui.AlertInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +23,23 @@ class MainActivity : BaseActivity<MainEvent, ActivityMainBinding, MainViewModel>
     private lateinit var navController: NavController
 
     override suspend fun eventObserver() {
+        viewModel.event.collect {
+            when (it) {
+                is MainEvent.HandleException -> showUnexpectedErrorDialog()
+            }
+        }
+    }
 
+    private fun showUnexpectedErrorDialog() {
+        navController.showAlertDialog(
+            AlertInfo(
+                title = getString(R.string.alert),
+                titleGravity = Gravity.CENTER,
+                descriptionGravity = Gravity.CENTER,
+                description = getString(R.string.unexpected_error_description),
+                positiveText = getString(R.string.got_it),
+            )
+        )
     }
 
     fun isLoading(isLoading: Boolean) {

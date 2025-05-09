@@ -18,8 +18,12 @@ class MainViewModel @Inject constructor(
             saveSearchQueryUseCase(searchQuery)
         }
     }
+
+    fun onException(e: Exception) {
+        sendEvent(MainEvent.HandleException(e))
+    }
 }
 
 sealed class MainEvent : BaseEvent() {
-
+    data class HandleException(val e: Exception) : MainEvent()
 }

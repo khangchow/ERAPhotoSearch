@@ -19,4 +19,13 @@
     <string name="delete_query_confirmation">Are you sure to delete: %s?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="got_it">Got it</string>
+    <string name="alert">Alert</string>
+    <string name="unexpected_error_description">Something went wrong! Please try again later!</string>
+    <string name="no_internet">No Internet</string>
+    <string name="no_internet_description">You are not connected to the internet. Check your connection and try again.</string>
+    <string name="too_many_requests">Too Many Requests</string>
+    <string name="too_many_requests_description">You have exceeded your monthly rate limit! Please try again later or contact us to extend your request limit!</string>
+    <string name="uncover_stunning_images_now">Uncover Stunning Images Now</string>
+    <string name="empty_search_result_alert">We couldn’t find anything matching your search. Try checking your spelling or using different keywords.</string>
 </resources>

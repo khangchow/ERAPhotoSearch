@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.era.photosearch.R
 import com.era.photosearch.base.BaseFragment
 import com.era.photosearch.databinding.FragmentSearchBinding
-import com.era.photosearch.extension.navigate
+import com.era.photosearch.extension.showAlertDialog
 import com.era.photosearch.model.entity.SearchQuery
 import com.era.photosearch.model.ui.AlertInfo
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,22 +59,19 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
                 }
 
                 is SearchEvent.ConfirmDelete -> {
-                    navigate(
-                        directions = SearchFragmentDirections.actionGlobalAlertDialogFragment(
-                            AlertInfo(
-                                title = getString(R.string.warning),
-                                titleGravity = Gravity.CENTER,
-                                descriptionGravity = Gravity.CENTER,
-                                description = getString(
-                                    R.string.delete_query_confirmation,
-                                    it.query
-                                ),
-                                positiveText = getString(R.string.yes),
-                                negativeText = getString(R.string.no),
-                                reason = REASON_DELETE_QUERY,
-                            )
-                        ),
-                        rootFragment = this@SearchFragment
+                    showAlertDialog(
+                        alertInfo = AlertInfo(
+                            title = getString(R.string.warning),
+                            titleGravity = Gravity.CENTER,
+                            descriptionGravity = Gravity.CENTER,
+                            description = getString(
+                                R.string.delete_query_confirmation,
+                                it.query
+                            ),
+                            positiveText = getString(R.string.yes),
+                            negativeText = getString(R.string.no),
+                            reason = REASON_DELETE_QUERY,
+                        )
                     )
                 }
             }
