@@ -2,7 +2,6 @@ package com.era.photosearch.presentation.home
 
 import android.graphics.Typeface
 import android.text.SpannableString
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -20,25 +19,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.era.photosearch.R
 import com.era.photosearch.base.BaseFragment
 import com.era.photosearch.databinding.FragmentHomeBinding
 import com.era.photosearch.extension.customSpan
 import com.era.photosearch.extension.navigate
-import com.era.photosearch.extension.showAlertDialog
-import com.era.photosearch.model.ui.AlertInfo
+import com.era.photosearch.extension.onBottomReached
 import com.era.photosearch.presentation.search.SearchFragment
-import com.era.photosearch.util.HttpStatus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.net.UnknownHostException
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>() {
     override val bindingInflater: ((LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding) =
         FragmentHomeBinding::inflate
     override val viewModel: HomeViewModel by viewModels()
+    private var recyclerScrollListener: RecyclerView.OnScrollListener? = null
 
     override suspend fun eventObserver() {
 
@@ -95,11 +92,25 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
             }.apply {
                 addLoadStateListener { loadStates ->
                     binding.apply {
+                        recyclerScrollListener?.let { removeOnScrollListener(it) }
                         swipeRefreshLayout.isRefreshing = false
                         if (loadStates.refresh is LoadState.NotLoading) {
-                            val isListEmpty =
-                                adapter?.itemCount == 0 && viewModel.searchQuery.value?.isNotEmpty() == true
-                            tvEmpty.isInvisible = !isListEmpty
+                            when {
+                                loadStates.append.endOfPaginationReached -> {} // no more data to load
+                                loadStates.source.prepend.endOfPaginationReached -> {
+                                    // load more when no internet
+                                    onBottomReached {
+                                        (adapter as PhotoAdapter).retry()
+                                    }.also { recyclerScrollListener = it }
+                                }
+
+                                else -> {
+                                    // load success
+                                    val isListEmpty =
+                                        adapter?.itemCount == 0 && viewModel.searchQuery.value?.isNotEmpty() == true
+                                    tvEmpty.isInvisible = !isListEmpty
+                                }
+                            }
                         } else {
                             val errorState = (loadStates.source.append as? LoadState.Error)
                                 ?: (loadStates.source.prepend as? LoadState.Error)
@@ -107,40 +118,7 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
                                 ?: (loadStates.refresh as? LoadState.Error)
                             errorState?.let { loadStateError ->
                                 val throwable = loadStateError.error
-                                when (throwable) {
-                                    is UnknownHostException -> showAlertDialog(
-                                        alertInfo = AlertInfo(
-                                            title = getString(R.string.no_internet),
-                                            titleGravity = Gravity.CENTER,
-                                            descriptionGravity = Gravity.CENTER,
-                                            description = getString(R.string.no_internet_description),
-                                            positiveText = getString(R.string.got_it),
-                                        )
-                                    )
-
-                                    is HttpException -> {
-                                        val code = throwable.code()
-                                        when (code) {
-                                            HttpStatus.TOO_MANY_REQUESTS -> showAlertDialog(
-                                                alertInfo = AlertInfo(
-                                                    title = getString(R.string.too_many_requests),
-                                                    titleGravity = Gravity.CENTER,
-                                                    descriptionGravity = Gravity.CENTER,
-                                                    description = getString(R.string.too_many_requests_description),
-                                                    positiveText = getString(R.string.got_it),
-                                                )
-                                            )
-
-                                            HttpStatus.MISSING_QUERY_PARAM -> {}
-
-                                            else -> mainViewModel.onException(throwable)
-                                        }
-                                    }
-
-                                    else -> mainViewModel.onException(
-                                        throwable as? Exception ?: Exception()
-                                    )
-                                }
+                                mainViewModel.onException(throwable as? Exception)
                             }
                         }
                     }

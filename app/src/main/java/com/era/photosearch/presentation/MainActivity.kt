@@ -13,7 +13,10 @@ import com.era.photosearch.base.BaseActivity
 import com.era.photosearch.databinding.ActivityMainBinding
 import com.era.photosearch.extension.showAlertDialog
 import com.era.photosearch.model.ui.AlertInfo
+import com.era.photosearch.util.HttpStatus
 import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.HttpException
+import java.net.UnknownHostException
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<MainEvent, ActivityMainBinding, MainViewModel>() {
@@ -25,18 +28,38 @@ class MainActivity : BaseActivity<MainEvent, ActivityMainBinding, MainViewModel>
     override suspend fun eventObserver() {
         viewModel.event.collect {
             when (it) {
-                is MainEvent.HandleException -> showUnexpectedErrorDialog()
+                is MainEvent.HandleException -> showUnexpectedErrorDialog(it.e)
             }
         }
     }
 
-    private fun showUnexpectedErrorDialog() {
+    private fun showUnexpectedErrorDialog(e: Exception?) {
+        var title = getString(R.string.alert)
+        var description = getString(R.string.unexpected_error_description)
+        when (e) {
+            is UnknownHostException -> {
+                title = getString(R.string.no_internet)
+                description = getString(R.string.no_internet_description)
+            }
+
+            is HttpException -> {
+                val code = e.code()
+                when (code) {
+                    HttpStatus.TOO_MANY_REQUESTS -> {
+                        title = getString(R.string.too_many_requests)
+                        description = getString(R.string.too_many_requests_description)
+                    }
+
+                    HttpStatus.MISSING_QUERY_PARAM -> return
+                }
+            }
+        }
         navController.showAlertDialog(
             AlertInfo(
-                title = getString(R.string.alert),
+                title = title,
                 titleGravity = Gravity.CENTER,
                 descriptionGravity = Gravity.CENTER,
-                description = getString(R.string.unexpected_error_description),
+                description = description,
                 positiveText = getString(R.string.got_it),
             )
         )

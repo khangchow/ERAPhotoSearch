@@ -19,11 +19,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun onException(e: Exception) {
+    fun onException(e: Exception?) {
         sendEvent(MainEvent.HandleException(e))
     }
 }
 
 sealed class MainEvent : BaseEvent() {
-    data class HandleException(val e: Exception) : MainEvent()
+    data class HandleException(val e: Exception?) : MainEvent()
 }
