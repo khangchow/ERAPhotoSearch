@@ -22,6 +22,8 @@ abstract class BaseFragment<E : BaseEvent, VB : ViewBinding, VM : BaseViewModel<
 
     abstract suspend fun eventObserver()
 
+    protected fun isForeground() = _binding != null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

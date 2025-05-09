@@ -91,9 +91,14 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
                 )
             }.apply {
                 addLoadStateListener { loadStates ->
+                    if (isForeground().not()) return@addLoadStateListener
                     binding.apply {
                         recyclerScrollListener?.let { removeOnScrollListener(it) }
                         swipeRefreshLayout.isRefreshing = false
+                        isLoading(
+                            loadStates.source.refresh is LoadState.Loading && (adapter?.itemCount
+                                ?: 0) == 0
+                        )
                         if (loadStates.refresh is LoadState.NotLoading) {
                             when {
                                 (adapter?.itemCount
