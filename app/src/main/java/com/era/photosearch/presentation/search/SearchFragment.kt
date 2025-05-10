@@ -2,7 +2,6 @@ package com.era.photosearch.presentation.search
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -29,6 +28,7 @@ import com.era.photosearch.databinding.FragmentSearchBinding
 import com.era.photosearch.extension.showAlertDialog
 import com.era.photosearch.model.entity.SearchQuery
 import com.era.photosearch.model.ui.AlertInfo
+import com.era.photosearch.util.RecyclerViewDivider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.max
@@ -123,6 +123,12 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
 
     private fun setUpRecyclerView() {
         binding.rvHistory.apply {
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.item_divider
+            )?.let { divider ->
+                addItemDecoration(RecyclerViewDivider(divider))
+            }
             val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
                 0,
                 ItemTouchHelper.LEFT
