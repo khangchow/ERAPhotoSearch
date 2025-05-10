@@ -34,6 +34,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -67,7 +72,6 @@ dependencies {
     def hilt_compiler_version = "1.1.0"
     def okhttp3_logging_interceptor = "4.10.0"
     def swipe_refresh_layout_version = "1.2.0-beta01"
-    def touch_image_view_version = "3.6"
     def paging_version = "3.3.6"
     def room_paging_version = "2.7.1"
 

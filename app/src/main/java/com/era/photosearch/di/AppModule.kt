@@ -27,6 +27,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+    @Provides
+    fun provideApiKey(): String {
+        return NativeLib().getApiKey()
+    }
 
     @Provides
     @Singleton
@@ -48,7 +52,7 @@ class AppModule {
         .build()
 
     @Provides
-    fun provideAuthInterceptor(): AuthInterceptor = AuthInterceptor()
+    fun provideAuthInterceptor(apiKey: String): AuthInterceptor = AuthInterceptor(apiKey)
 
     @Provides
     @Singleton

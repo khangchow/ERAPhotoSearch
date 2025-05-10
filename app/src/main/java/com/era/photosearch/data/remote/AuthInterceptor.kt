@@ -4,7 +4,7 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
-class AuthInterceptor() : Interceptor {
+class AuthInterceptor(private val apiKey: String) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest: Request = chain.request()
@@ -12,7 +12,7 @@ class AuthInterceptor() : Interceptor {
             originalRequest.newBuilder().apply {
                 addHeader(
                     "Authorization",
-                    "MeUQlK8dVvEE8hlzL3zJWQQvUe2GNhrrgEGpehTCbCWuxnMpIwSZrTNT"
+                    apiKey
                 ).build()
             }
         return chain.proceed(newRequest.build())
