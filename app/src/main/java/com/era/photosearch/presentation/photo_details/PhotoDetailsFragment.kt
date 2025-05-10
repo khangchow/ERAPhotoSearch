@@ -1,5 +1,6 @@
 package com.era.photosearch.presentation.photo_details
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -50,6 +51,7 @@ class PhotoDetailsFragment :
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun bindComponent() {
         setUpPhoto()
         setUpPhotographerName()
@@ -61,6 +63,11 @@ class PhotoDetailsFragment :
                     args.photoInfo.width,
                     args.photoInfo.height
                 )
+            scaleGestureDetector = ScaleGestureDetector(requireContext(), ScaleListener())
+            root.setOnTouchListener { _, event ->
+                scaleGestureDetector.onTouchEvent(event)
+                true
+            }
         }
     }
 
@@ -82,12 +89,6 @@ class PhotoDetailsFragment :
 
     private fun setUpPhoto() {
         binding.ivPhoto.apply {
-            scaleGestureDetector = ScaleGestureDetector(requireContext(), ScaleListener())
-            setOnTouchListener { _, event ->
-                scaleGestureDetector.onTouchEvent(event)
-                performClick()
-                true
-            }
             postponeEnterTransition()
             transitionName = args.transitionName
             val enterTransition = TransitionInflater.from(requireContext()).inflateTransition(
@@ -262,7 +263,7 @@ class PhotoDetailsFragment :
     }
 
     inner class ScaleListener : SimpleOnScaleGestureListener() {
-        // when a scale gesture is detected, use it to resize the image
+
         override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
             scaleFactor *= scaleGestureDetector.scaleFactor
             binding.ivPhoto.apply {
