@@ -11,9 +11,11 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.navArgs
+import com.era.photosearch.BuildConfig
 import com.era.photosearch.R
 import com.era.photosearch.base.BaseFragment
 import com.era.photosearch.databinding.FragmentWebviewBinding
+import com.era.photosearch.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,7 +38,11 @@ class WebViewFragment :
         binding.webView.apply {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
-            eraWebViewClient = ERAWebViewClient { isLoading(false) }.also { webViewClient = it }
+            eraWebViewClient = ERAWebViewClient {
+                (requireActivity() as MainActivity).supportActionBar?.title =
+                    it.replace(BuildConfig.HOST, "")
+                isLoading(false)
+            }.also { webViewClient = it }
             loadUrl(args.url)
         }
     }
