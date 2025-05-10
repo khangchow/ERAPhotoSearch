@@ -150,10 +150,14 @@ class HomeFragment : BaseFragment<HomeEvent, FragmentHomeBinding, HomeViewModel>
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.action_search -> goToSearch()
+                return when (menuItem.itemId) {
+                    R.id.action_search -> {
+                        goToSearch()
+                        true
+                    }
+
+                    else -> false
                 }
-                return true
             }
         }
         menuHost.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)

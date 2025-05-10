@@ -115,7 +115,7 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return true
+                return false
             }
         }
         menuHost.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
