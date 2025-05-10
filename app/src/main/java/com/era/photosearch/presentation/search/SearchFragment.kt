@@ -62,8 +62,6 @@ class SearchFragment : BaseFragment<SearchEvent, FragmentSearchBinding, SearchVi
                     showAlertDialog(
                         alertInfo = AlertInfo(
                             title = getString(R.string.warning),
-                            titleGravity = Gravity.CENTER,
-                            descriptionGravity = Gravity.CENTER,
                             description = getString(
                                 R.string.delete_query_confirmation,
                                 it.query

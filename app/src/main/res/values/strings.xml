@@ -28,4 +28,5 @@
     <string name="too_many_requests_description">You have exceeded your monthly rate limit! Please try again later or contact us to extend your request limit!</string>
     <string name="uncover_stunning_images_now">Uncover Stunning Images Now</string>
     <string name="empty_search_result_alert">We couldn’t find anything matching your search. Try checking your spelling or using different keywords.</string>
+    <string name="load_photo_error_description">The photo size is switched back to Small due to unexpected error! Please try again later!</string>
 </resources>

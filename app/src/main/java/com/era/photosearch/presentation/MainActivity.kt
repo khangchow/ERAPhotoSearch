@@ -57,8 +57,6 @@ class MainActivity : BaseActivity<MainEvent, ActivityMainBinding, MainViewModel>
         navController.showAlertDialog(
             AlertInfo(
                 title = title,
-                titleGravity = Gravity.CENTER,
-                descriptionGravity = Gravity.CENTER,
                 description = description,
                 positiveText = getString(R.string.got_it),
             )

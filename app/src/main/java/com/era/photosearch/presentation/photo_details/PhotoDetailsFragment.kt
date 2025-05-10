@@ -24,6 +24,8 @@ import com.era.photosearch.base.BaseFragment
 import com.era.photosearch.databinding.FragmentPhotoDetailsBinding
 import com.era.photosearch.extension.customSpan
 import com.era.photosearch.extension.navigate
+import com.era.photosearch.extension.showAlertDialog
+import com.era.photosearch.model.ui.AlertInfo
 import com.era.photosearch.presentation.select_photo_size.SelectPhotoSizeBottomSheetDialogFragment
 import com.era.photosearch.util.PhotoSize
 import com.google.android.material.transition.platform.MaterialContainerTransform
@@ -39,6 +41,10 @@ class PhotoDetailsFragment :
     private lateinit var scaleGestureDetector: ScaleGestureDetector
     private var scaleFactor = 1.0f
     private var isInfoExpanded = true
+
+    companion object {
+        const val REASON_RESET_DEFAULT_SIZE = "REASON_RESET_DEFAULT_SIZE"
+    }
 
     override suspend fun eventObserver() {
 
@@ -150,6 +156,15 @@ class PhotoDetailsFragment :
                                     isFirstResource: Boolean
                                 ): Boolean {
                                     startPostponedEnterTransition()
+                                    showAlertDialog(
+                                        AlertInfo(
+                                            title = getString(R.string.alert),
+                                            description = context.getString(R.string.load_photo_error_description),
+                                            positiveText = getString(R.string.got_it),
+                                            reason = REASON_RESET_DEFAULT_SIZE
+                                        )
+                                    )
+                                    isLoading(false)
                                     return false
                                 }
 
@@ -224,6 +239,13 @@ class PhotoDetailsFragment :
 
     override fun setResultListener() {
         setSelectSizeListener()
+        setResetDefaultSizeListener()
+    }
+
+    private fun setResetDefaultSizeListener() {
+        setFragmentResultListener(REASON_RESET_DEFAULT_SIZE) { _, _ ->
+            viewModel.updateSize(PhotoSize.SMALL)
+        }
     }
 
     private fun setSelectSizeListener() {
