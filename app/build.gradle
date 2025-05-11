@@ -60,10 +60,8 @@ dependencies {
     def nav_version = "2.9.0"
     def coroutines_version = "1.7.3"
     def retrofit_version = "2.11.0"
-    def gson_version = "2.10.1"
     def glide_version = "4.16.0"
     def hilt_version = "2.54"
-    def datastore_version = "1.1.1"
     def core_ktx_version = "1.16.0"
     def appcompat_version = "1.7.0"
     def material_version = "1.12.0"
@@ -94,9 +92,6 @@ dependencies {
     implementation "androidx.room:room-ktx:${room_version}"
     ksp "androidx.room:room-compiler:${room_version}"
 
-    //Gson
-    implementation "com.google.code.gson:gson:${gson_version}"
-
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
@@ -122,9 +117,6 @@ dependencies {
     implementation "com.google.dagger:hilt-android:${hilt_version}"
     kapt "com.google.dagger:hilt-compiler:${hilt_version}"
     kapt "androidx.hilt:hilt-compiler:${hilt_compiler_version}"
-
-    //DataStore
-    implementation "androidx.datastore:datastore-preferences:${datastore_version}"
 
     //Swipe Refresh Layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:${swipe_refresh_layout_version}"
