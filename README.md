@@ -27,7 +27,18 @@ This is an Android app featuring Pexels search api (https://www.pexels.com/api/d
 - More appealing UIs -> Current version only focuses on clean, modern, maintainable, scalable code.
 
 ## Things to add
-- Testing to improve app stability. 
+- Add testing to improve app stability. 
 - Allow user to save photo into device.
 - Separate into free-trial and premium-trial so that users need to pay for unlocking to see higher resolution photo.
   
+## Getting started
+- Clone the repository using "https://github.com/khangchow/ERAPhotoSearch.git" into your desired directory.
+- You can use the current API Key or create your own at "https://www.pexels.com/api/" after logged in.
+- If you create your own API Key -> replace it to the current one in keys.c file located at Android view -> app -> cpp -> keys.c
+- Make sure your Android Studio version, Gradle version, AGP version are compatible.
+  
+## Note: The project is developed using 
+- Android Studio Meerkat | 2024.3.1 Patch 1
+- JavaVersion.VERSION_11
+- Android Gradle Plugin Version 8.9.2
+- Gradle Version 8.11.1
