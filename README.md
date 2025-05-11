@@ -22,6 +22,8 @@ This is an Android app featuring Pexels search api (https://www.pexels.com/api/d
 - Coroutines: Performs async tasks (network/database) in a non-blocking way.
 - Retrofit: Makes API requests and handles JSON serialization/deserialization.
 - Hilt: Manages dependencies and simplifies injection across components.
+- NDK: Stores important information like API Key in C native file and access it with JNI from Java/Kotlin code.
+- Shared element transitions, Motion Layout: Animates view for better UX.
 
 ## Things to improve
 - More appealing UIs -> Current version only focuses on clean, modern, maintainable, scalable code.
